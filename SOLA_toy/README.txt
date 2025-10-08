@@ -31,7 +31,22 @@ Zaroli, C., 2019.  Seismic tomography using parameter-free Backus–Gilbert inve
 
 Please cite these papers if you're using this software.
 
-========================================================================
+
+
+create virtual environment
+-----------------------------------
+with conda:
+conda create --name sola
+conda activate sola
+conda install numpy scipy pandas matplotlib
+
+
+with venv:
+python3 -m venv sola
+source sola/bin/activate
+pip install numpy scipy pandas matplotlib
+
+
 
 python requirements : 
 -----------------------------------

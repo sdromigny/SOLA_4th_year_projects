@@ -1,8 +1,20 @@
 import os
 import numpy as np
-from numpy.compat import asbytes
+
 from scipy.sparse import csr_matrix, identity, vstack
 from scipy.sparse import load_npz, save_npz
+
+
+def asbytes(x, encoding='utf-8'):
+    if x is None:
+        return None
+    if isinstance(x, bytes):
+        return x
+    if isinstance(x, str):
+        return x.encode(encoding)
+    if isinstance(x, np.ndarray):
+        return np.char.encode(x.astype(str), encoding)   # returns dtype=object of byte strings
+    return str(x).encode(encoding)
 
 
 # G matrix 

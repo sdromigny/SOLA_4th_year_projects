@@ -5,7 +5,6 @@ import sys
 import pandas as pd
 import numpy as np
 from scipy import io
-from numpy.compat import asbytes
 from configcl_gen import Cfig
 from subprocess import call
 from scipy.sparse import csr_matrix, dok_matrix

@@ -12,7 +12,7 @@ from SOLA_utils import *
 argu_parser = argparse.ArgumentParser(description='Run SOLA preprocessing (G normalisation and sparsity)')
 #                                                   - normalize Gij by sigma_di (needed for LSQR C code) \n
 #                                                   - switch the first line with the sparsest one to optimize computation time')
-argu_parser.add_argument('-c','--configfile', nargs=1, required=True, help='filename of configuration file (including path)', type=str)
+argu_parser.add_argument('-c','--configfile', nargs=1,  required=True, help='filename of configuration file (including path)', type=str)
 
 args = argu_parser.parse_args()
 filecfg = args.configfile
