@@ -16,7 +16,7 @@ from utils.straight_ray_tracer import *
 # Set some parameters to make plots nicer.
 
 plt.rcParams["font.family"] = "serif"
-plt.rcParams.update({"font.size": 35})
+plt.rcParams.update({"font.size": 11})
 
 
 # Define the numerical grid. ---------------------------------------------
@@ -84,7 +84,7 @@ for i in range(0, g.npoints[0], dd):
 m_true = (1 / vp).ravel()
 
 dim=len(m_true)
-print(dim)
+
 
 clim = [1 / 3.1, 1 / 2.9]
 plot_model(
@@ -128,7 +128,7 @@ T = np.eye(dim)  # Identity matrix
 
 c = np.asarray(G.sum(axis=1)).ravel()
 
-print(c.shape)
+
 
 
 
@@ -243,6 +243,7 @@ Gt=[]
 
 
 
+
 for i in range(len(x_hat)):
 
     Gt.append(B.dot(x_hat[i])+ 1/c[0]*np.eye(len(c))[0])
@@ -250,24 +251,49 @@ for i in range(len(x_hat)):
 Gt=np.array(Gt)
 
 
-
-print('G',Gt.shape)
-
-
-
 ######## compute the averaging kernels stored in A and normalise A values for easier interpretation
+
+G_dense = G.toarray() if sparse.issparse(G) else np.asarray(G)
 
 A=[]
 
 for i in range(len(x_hat)):
 
-    A.append(np.dot(Gt[i],G))
+    A.append(np.dot(Gt[i],G_dense))
 
-
-print('A',A.shape)
-
-
+    
 
 
 
+
+
+########## Plotting the model solution with error bars and the averaging vs target kernels
+
+# Plot the averaging-kernel matrix and the target-kernel matrix side-by-side
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# Left: Averaging kernels (resolution matrix rows stacked)
+ax0 = axes[0]
+im0 = sns.heatmap(A, cmap='Greys', ax=ax0, cbar=False, square=True)
+ax0.set_title('Averaging kernel matrix (A)')
+ax0.set_xlabel('Model parameter index')
+ax0.set_ylabel('Averaging kernel index')
+
+# Add colorbar for the left heatmap
+cbar0 = fig.colorbar(im0.get_children()[0], ax=ax0, fraction=0.046, pad=0.04)
+cbar0.set_label('Amplitude', color='k')
+
+# Right: Target kernels (columns are targets; show as matrix)
+ax1 = axes[1]
+im1 = sns.heatmap(T, cmap='Greys', ax=ax1, cbar=False, square=True)
+ax1.set_title('Target kernel matrix (T)')
+ax1.set_xlabel('Target index')
+ax1.set_ylabel('Model parameter index')
+
+# Add colorbar for the right heatmap
+cbar1 = fig.colorbar(im1.get_children()[0], ax=ax1, fraction=0.046, pad=0.04)
+cbar1.set_label('Amplitude', color='k')
+
+plt.tight_layout()
+plt.show()
 
