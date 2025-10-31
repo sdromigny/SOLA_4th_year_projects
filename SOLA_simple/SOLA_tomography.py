@@ -91,7 +91,7 @@ plot_model(
     1000.0 * m_true, g, "true model [ms/m]", caxis=clim, savename="true_model.pdf"
 )
 
-eta=0.1
+eta=1
 
 # Create observed data ---------------------------------------------------
 d_true = G * m_true
@@ -120,6 +120,8 @@ plt.show()
 
 
 T = np.eye(dim)  # Identity matrix
+
+
 
 
 ##################### Constraint : sum of the rows of G = 1
@@ -261,13 +263,17 @@ for i in range(len(x_hat)):
 
     A.append(np.dot(Gt[i],G_dense))
 
-    
+
+
+row=0
+
+
+A=np.array(A)
+avk=A[row, :].reshape(int(Nx), int(Ny))
 
 
 
-
-
-########## Plotting the model solution with error bars and the averaging vs target kernels
+########## Plotting the averaging vs target kernels
 
 # Plot the averaging-kernel matrix and the target-kernel matrix side-by-side
 fig, axes = plt.subplots(1, 2, figsize=(12, 5))
@@ -297,3 +303,9 @@ cbar1.set_label('Amplitude', color='k')
 plt.tight_layout()
 plt.show()
 
+# --- Reconstruct model from Gt and observed data ---
+
+
+m_from_Gt = Gt.dot(d_obs)   
+
+plot_model(m_from_Gt*1000.0, g, "Recovered model from Gt [ms/m]", caxis=clim, savename="recovered_model.pdf")

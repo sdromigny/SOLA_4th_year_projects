@@ -82,6 +82,19 @@ m_est = Gt.dot(d_obs)        # shape (nparams,)
 # current "deterministic" propagated uncertainty for the particular error values
 uncert_realization = Gt.dot(error)
 
+x = np.arange(G.shape[1])
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.set_title('True model vs SOLA / Backus-Gilbert estimates')
+ax.errorbar(x - 0.05, m_true, yerr=0, fmt='o', label='true model')
+ax.errorbar(x + 0.05, m_est, yerr=np.sqrt(uncert_realization), fmt='s', label='estimated', capsize=5)
+ax.set_xlabel('Model parameter index')
+ax.set_ylabel('Parameter value')
+ax.legend()
+
+plt.tight_layout()
+plt.show()
+
+
 # ---------------------------
 # Monte Carlo sampling to verify error propagation
 # ---------------------------
