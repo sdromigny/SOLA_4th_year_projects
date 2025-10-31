@@ -308,4 +308,10 @@ plt.show()
 
 m_from_Gt = Gt.dot(d_obs)   
 
+inv=np.dot(Gt,G_dense)
+m_compare= np.dot(inv,m_true)
+
+
 plot_model(m_from_Gt*1000.0, g, "Recovered model from Gt [ms/m]", caxis=clim, savename="recovered_model.pdf")
+
+plot_model(m_compare*1000.0, g, "Compared recovered to the true solution [ms/m]", caxis=clim, savename="compared_model.pdf")
