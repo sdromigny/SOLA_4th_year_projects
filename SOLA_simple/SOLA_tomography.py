@@ -315,3 +315,43 @@ m_compare= np.dot(inv,m_true)
 plot_model(m_from_Gt*1000.0, g, "Recovered model from Gt [ms/m]", caxis=clim, savename="recovered_model.pdf")
 
 plot_model(m_compare*1000.0, g, "Compared recovered to the true solution [ms/m]", caxis=clim, savename="compared_model.pdf")
+
+
+
+
+# diagonal of model covariance:
+covm_diag = (sigma_d**2) * np.sum(Gt**2, axis=1)   # shape (Nm,)
+
+
+
+covm_diag = np.asarray(covm_diag)           
+m_std = np.sqrt(np.maximum(0.0, covm_diag))  # std (same units as m)
+
+
+
+
+
+m_std_msperm = m_std * 1000.0
+
+
+
+m_std_grid = m_std_msperm.reshape(int(Nx), int(Ny))   
+
+
+vmin = 0.0
+vmax = np.percentile(m_std_grid, 99)
+
+plt.figure(figsize=(6,5))
+im = plt.imshow(
+    m_std_grid,
+    origin='lower',
+    interpolation='nearest',
+    cmap='Greys'      
+)
+plt.colorbar(im, label='σ (ms/m)')
+plt.clim(vmin, vmax)
+plt.title('Model standard deviation (±1σ), linear scale')
+plt.xlabel('x index'); plt.ylabel('y index')
+plt.tight_layout()
+plt.savefig('uncert.png')
+plt.show()
