@@ -592,10 +592,10 @@ def parse_dat_file(dat_path, event_id_map):
 
 if __name__ == "__main__":
     # paths - change to your files
-    dat_file = "/workspaces/codespaces-blank/SOLA_4th_year_projects/DATA_Cornwall/phase_error.dat"
-    station_csv = "/workspaces/codespaces-blank/SOLA_4th_year_projects/DATA_Cornwall/stations_cartesian.csv"       # CSV with columns: name,x,y,z
-    source_csv = "/workspaces/codespaces-blank/SOLA_4th_year_projects/DATA_Cornwall/events_cartesian.csv"         # CSV mapping source-id -> x,y,z
-    G_file="/workspaces/codespaces-blank/G_P.txt"
+    dat_file = "/workspaces/SOLA_4th_year_projects/DATA_Cornwall/phase_error.dat"
+    station_csv = "/workspaces/SOLA_4th_year_projects/DATA_Cornwall/stations_cartesian.csv"       # CSV with columns: name,x,y,z
+    source_csv = "/workspaces/SOLA_4th_year_projects/DATA_Cornwall/events_cartesian.csv"         # CSV mapping source-id -> x,y,z
+    G_file="/workspaces/SOLA_4th_year_projects/G_P.txt"
     
     G=read_G_text(G_file)
 

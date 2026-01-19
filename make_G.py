@@ -511,9 +511,9 @@ def read_G_text(filename, assume_one_based=True):
 # -------------------- Example main --------------------
 if __name__ == "__main__":
     # paths - change to your files
-    dat_file = "/workspaces/codespaces-blank/SOLA_4th_year_projects/DATA_Cornwall/absolute.dat"
-    station_csv = "/workspaces/codespaces-blank/SOLA_4th_year_projects/DATA_Cornwall/stations_cartesian.csv"       # CSV with columns: name,x,y,z
-    source_csv = "/workspaces/codespaces-blank/SOLA_4th_year_projects/DATA_Cornwall/events_cartesian.csv"         # CSV mapping source-id -> x,y,z
+    dat_file = "/workspaces/SOLA_4th_year_projects/DATA_Cornwall/absolute.dat"
+    station_csv = "/workspaces/SOLA_4th_year_projects/DATA_Cornwall/stations_cartesian.csv"       # CSV with columns: name,x,y,z
+    source_csv = "/workspaces/SOLA_4th_year_projects/DATA_Cornwall/events_cartesian.csv"         # CSV mapping source-id -> x,y,z
 
     # parse file
     sources_dict = parse_dat_file(dat_file)
