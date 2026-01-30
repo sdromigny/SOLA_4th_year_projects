@@ -62,3 +62,51 @@ def compute_Tks_3D(nx, ny, nz, cfg, radius, writefile=True):
             write_Tk(Tk, ik, fileTi)
 
     return Tks
+
+
+def write_Tk_sparse(Tk, ncell, fname, tol=0.0):
+    """
+    Write target kernel in sparse format:
+    - first line: total number of cells
+    - following lines: cell_index  Tk_value
+    """
+
+    with open(fname, 'w') as f:
+        f.write(f"{ncell}\n")
+
+        for i, val in enumerate(Tk):
+            if abs(val) > tol:
+                f.write(f"{i:d} {val:.10e}\n")
+
+
+def compute_all_Tks_3D(nx, ny, nz, radius, cfg, tol=0.0):
+
+    ncell = nx * ny * nz
+    outdir = os.path.join(cfg.indir, "T")
+
+    if not os.path.exists(outdir):
+        os.mkdir(outdir)
+
+    k = 0
+    for ix in range(nx):
+        for iy in range(ny):
+            for iz in range(nz):
+
+                # cell center
+                xk = ix + 0.5
+                yk = iy + 0.5
+                zk = iz + 0.5
+
+                Tk = compute_Tk_sphere(
+                    xk, yk, zk,
+                    radius,
+                    nx, ny, nz
+                )
+
+                fname = os.path.join(outdir, f"T_{k}.txt")
+                write_Tk_sparse(Tk, ncell, fname, tol=tol)
+
+                if k % 50 == 0:
+                    print(f"Written kernel {k}/{ncell}")
+
+                k += 1
