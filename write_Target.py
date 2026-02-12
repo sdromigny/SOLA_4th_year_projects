@@ -1,3 +1,6 @@
+import numpy as np
+import os
+
 def WhereAmI3D(xi, yi, zi, nx, ny, nz):
     i = int(xi)
     j = int(yi)
