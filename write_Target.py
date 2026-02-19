@@ -106,7 +106,7 @@ def compute_all_Tks_3D(nx, ny, nz, radius, cfg, tol=0.0):
                     nx, ny, nz
                 )
 
-                fname = os.path.join(outdir, f"T_{k}.txt")
+                fname = os.path.join(outdir, f"T_{k}")
                 write_Tk_sparse(Tk, ncell, fname, tol=tol)
 
                 if k % 50 == 0:

@@ -6,3 +6,5 @@
 .DS_Store
 rays_P
 rays_S
+rays_output
+T_adaptive

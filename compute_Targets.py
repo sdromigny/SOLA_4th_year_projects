@@ -3,7 +3,7 @@ import os
 from write_Target import compute_all_Tks_3D, compute_Tks_3D
 
 # Define grid dimensions
-nx, ny, nz = 10, 10, 10
+nx, ny, nz = 9, 9, 9
 
 # Define sphere radius
 radius = 2.0
