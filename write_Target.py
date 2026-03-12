@@ -1,5 +1,6 @@
 import numpy as np
 import os
+from multiprocessing import Pool, cpu_count
 
 def WhereAmI3D(xi, yi, zi, nx, ny, nz):
     i = int(xi)
@@ -113,3 +114,34 @@ def compute_all_Tks_3D(nx, ny, nz, radius, cfg, tol=0.0):
                     print(f"Written kernel {k}/{ncell}")
 
                 k += 1
+
+def _compute_single_Tk(args, cfg, tol=0.0):
+    outdir = os.path.join(cfg.indir, "T")
+    ix, iy, iz, radius, nx, ny, nz= args
+    ncell = nx * ny * nz
+
+    xk = ix + 0.5
+    yk = iy + 0.5
+    zk = iz + 0.5
+
+    Tk = compute_Tk_sphere(
+    xk, yk, zk,
+    radius,
+    nx, ny, nz
+    )
+
+    fname = os.path.join(outdir, f"T_{k}")
+    write_Tk_sparse(Tk, ncell, fname, tol=tol)
+
+def parallel_Tks(nx, ny, nz, radius, cfg, tol=0.0):
+    
+
+    args = [
+        (ix, iy, iz, radius, nx, ny, nz)
+        for ix, iy, iz in range(nx)
+    ]
+
+    with Pool(cpu_count()) as pool:
+        Tks = pool.map(_compute_single_Tk, args, cfg, tol=tol)
+
+    return Tks
