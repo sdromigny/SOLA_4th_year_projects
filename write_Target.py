@@ -115,9 +115,12 @@ def compute_all_Tks_3D(nx, ny, nz, radius, cfg, tol=0.0):
 
                 k += 1
 
-def _compute_single_Tk(args, cfg, tol=0.0):
+
+def _compute_single_Tk(args):
+
+    ix, iy, iz, radius, nx, ny, nz, cfg, tol = args
+
     outdir = os.path.join(cfg.indir, "T")
-    ix, iy, iz, radius, nx, ny, nz= args
     ncell = nx * ny * nz
 
     xk = ix + 0.5
@@ -125,23 +128,33 @@ def _compute_single_Tk(args, cfg, tol=0.0):
     zk = iz + 0.5
 
     Tk = compute_Tk_sphere(
-    xk, yk, zk,
-    radius,
-    nx, ny, nz
+        xk, yk, zk,
+        radius,
+        nx, ny, nz
     )
+
+    k = WhereAmI3D(ix, iy, iz, nx, ny, nz)
 
     fname = os.path.join(outdir, f"T_{k}")
     write_Tk_sparse(Tk, ncell, fname, tol=tol)
 
+    return k
+
 def parallel_Tks(nx, ny, nz, radius, cfg, tol=0.0):
     
+    outdir = os.path.join(cfg.indir, "T")
+
+    if not os.path.exists(outdir):
+        os.mkdir(outdir)
 
     args = [
-        (ix, iy, iz, radius, nx, ny, nz)
-        for ix, iy, iz in range(nx)
+        (ix, iy, iz, radius, nx, ny, nz, cfg, tol)
+        for ix in range(nx)
+        for iy in range(ny)
+        for iz in range(nz)
     ]
 
     with Pool(cpu_count()) as pool:
-        Tks = pool.map(_compute_single_Tk, args, cfg, tol=tol)
+        results = pool.map(_compute_single_Tk, args)
 
-    return Tks
+    return results
